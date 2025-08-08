@@ -1,0 +1,70 @@
+<div class="container mt-3">
+  <h2>{{ edit ? 'Edit' : 'Add' }} Book</h2>
+
+  <!-- Error Alert -->
+  <div *ngIf="validationErrors.length" class="alert alert-danger">
+    <ul class="mb-0">
+      <li *ngFor="let error of validationErrors">{{ error }}</li>
+    </ul>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <!-- Title -->
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input class="form-control" formControlName="title" />
+    </div>
+
+    <!-- Author -->
+    <div class="mb-3">
+      <label class="form-label">Author</label>
+      <input class="form-control" formControlName="author" />
+    </div>
+
+    <!-- Price -->
+    <div class="mb-3">
+      <label class="form-label">Price</label>
+      <input
+        class="form-control"
+        type="number"
+        formControlName="price"
+        min="0"
+        step="0.01"
+      />
+    </div>
+
+    <!-- Category -->
+    <div class="mb-3">
+      <label class="form-label">Category (Genre)</label>
+      <select class="form-select" formControlName="category">
+        <option value="">Select one</option>
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+
+    <!-- Cover Image -->
+    <div class="mb-3">
+      <label class="form-label">Cover Image</label>
+      <input class="form-control" type="file" (change)="onFile($event)" />
+
+          <!-- Image Preview -->
+      <div *ngIf="imagePreviewUrl" class="mt-3">
+        <p><strong>Preview</strong></p>
+        <img
+          [src]="imagePreviewUrl"
+          alt="Image Preview"
+          class="img-thumbnail"
+          style="max-height: 100px;"
+        />
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <button class="btn btn-primary" type="submit">
+      {{ edit ? 'Update' : 'Save' }}
+    </button>
+    <button class="btn btn-secondary ms-2" type="button" (click)="goToBooks()">
+      Cancel
+    </button>
+  </form>
+</div>
